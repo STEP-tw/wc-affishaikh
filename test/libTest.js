@@ -1,21 +1,13 @@
 const { wc } = require('../src/lib.js');
+const { createReader } = require('./mockUtils.js');
 const assert = require('assert');
-const ENCODING = 'utf8';
-
-const createReader = function(expectedFileName, fileContents) {
-  return function(actualFileName, actualEncoding) {
-    if (actualFileName === expectedFileName && actualEncoding === ENCODING) {
-      return fileContents;
-    }
-  };
-};
 
 describe('wc', function() {
   describe('count lines', function() {
     const fs = {};
     it('should return number of lines', function() {
       const fileName = 'numbers';
-      const fileContents = '1\n2\n3';
+      const fileContents = '1\n2\n3\n';
       fs.readFileSync = createReader(fileName, fileContents);
       let expectedOutput = 3;
       let actualOutput = wc(['-l', 'numbers'], fs);
@@ -27,10 +19,22 @@ describe('wc', function() {
     const fs = {};
     it('should return number of characters', function() {
       const fileName = 'numbers';
-      const fileContents = '1\n2\n3';
+      const fileContents = '1\n2\n3\n';
       fs.readFileSync = createReader(fileName, fileContents);
-      let expectedOutput = 5;
+      let expectedOutput = 6;
       let actualOutput = wc(['-c', 'numbers'], fs);
+      assert.equal(actualOutput, expectedOutput);
+    });
+  });
+
+  describe('count words', function() {
+    const fs = {};
+    it('should return number of words', function() {
+      const fileName = 'numbers';
+      const fileContents = '1\n2\n3\n';
+      fs.readFileSync = createReader(fileName, fileContents);
+      let expectedOutput = 3;
+      let actualOutput = wc(['-w', 'numbers'], fs);
       assert.equal(actualOutput, expectedOutput);
     });
   });
