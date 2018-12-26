@@ -1,0 +1,22 @@
+{
+  "name": "wc",
+  "version": "0.0.1",
+  "description": "Counts number of lines, words, and characters from file.",
+  "main": "wc.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STEP-tw/wc-affishaikh.git"
+  },
+  "author": "Affi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/STEP-tw/wc-affishaikh/issues"
+  },
+  "homepage": "https://github.com/STEP-tw/wc-affishaikh#readme"
+}
