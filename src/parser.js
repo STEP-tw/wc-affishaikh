@@ -1,35 +1,46 @@
-const insertState = function(options, fileNames) {
+const insertState = function(fileNames, options) {
   return { options, fileNames };
 };
 
+const indexFinder = function(arg) {
+  return !arg.startsWith('-');
+};
+
+const findIndexOfFirstFile = function(args) {
+  return args.findIndex(indexFinder);
+};
+
+const reducer = function(options, unparsedOption) {
+  if (unparsedOption.includes('l')) {
+    options['line'] = true;
+  }
+  if (unparsedOption.includes('w')) {
+    options['word'] = true;
+  }
+  if (unparsedOption.includes('c')) {
+    options['character'] = true;
+  }
+  return options;
+};
+
+const isDefaultCase = indexOfFirstFile => indexOfFirstFile === 0;
+
 const parseInput = function(args) {
-  let prerequisites = {};
-  if (!args[0].startsWith('-')) {
-    prerequisites = insertState(
-      { line: true, word: true, character: true },
-      args.slice(0)
-    );
+  const indexOfFirstFile = findIndexOfFirstFile(args);
+  const fileNames = args.slice(indexOfFirstFile);
+  const insertOptions = insertState.bind(null, fileNames);
+
+  if (isDefaultCase(indexOfFirstFile)) {
+    return insertOptions({ line: true, word: true, character: true });
   }
 
-  if (args[0] === '-l') {
-    prerequisites = insertState(
-        { line: true, word: false, character: false },
-        args.slice(1)
-      );
-  }
-  if (args[0] === '-w') {
-    prerequisites = insertState(
-        { line: false, word: true, character: false },
-        args.slice(1)
-      );
-  }
-  if (args[0] === '-c') {
-    prerequisites = insertState(
-        { line: false, word: false, character: true },
-        args.slice(1)
-      );
-  }
-  return prerequisites;
+  const unparsedOptions = args.slice(0, indexOfFirstFile);
+  let options = unparsedOptions.reduce(reducer, {
+    line: false,
+    word: false,
+    character: false
+  });
+  return insertOptions(options);
 };
 
 module.exports = { parseInput };
