@@ -1,4 +1,4 @@
-const { TAB } = require('./constants.js');
+const { TAB } = require('../constants.js');
 
 const formatCountAndFileName = function(result) {
   let formattedResult = '';

@@ -1,4 +1,4 @@
-const { parseInput } = require('../src/parser.js');
+const { parseInput } = require('../../src/io/parser.js');
 const assert = require('assert');
 
 describe('parseInput', function() {

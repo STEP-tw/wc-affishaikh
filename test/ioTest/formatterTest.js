@@ -1,4 +1,4 @@
-const { formatCountAndFileName } = require('../src/formatter.js');
+const { formatCountAndFileName } = require('../../src/io/formatter.js');
 const assert = require('assert');
 
 describe('formatCountAndFileName', function() {

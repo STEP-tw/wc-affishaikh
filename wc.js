@@ -1,5 +1,5 @@
-const { wc } = require('./src/lib.js');
-const { parseInput } = require('./src/parser.js');
+const { wc } = require('./src/lib/lib.js');
+const { parseInput } = require('./src/io/parser.js');
 const fs = require('fs');
 
 const main = function() {

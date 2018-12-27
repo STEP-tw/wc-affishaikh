@@ -3,8 +3,8 @@ const {
   NEWLINE,
   EMPTYSTRING,
   REGEX_FOR_WORDS
-} = require('./constants.js');
-const { formatCountAndFileName } = require('./formatter.js');
+} = require('../constants.js');
+const { formatCountAndFileName } = require('../io/formatter.js');
 
 const getCount = function(delimeter, fileContents) {
   return fileContents.split(delimeter).length;

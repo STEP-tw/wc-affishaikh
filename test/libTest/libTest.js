@@ -1,5 +1,5 @@
-const { count } = require('../src/lib.js');
-const { createReader } = require('./mockUtils.js');
+const { count, wc  } = require('../../src/lib/lib.js');
+const { createReader } = require('../testUtils/mockUtils.js');
 const assert = require('assert');
 
 describe('count', function() {
@@ -87,6 +87,66 @@ describe('count', function() {
         characterCount: 6
       };
       let actualOutput = count(prerequisites, fs);
+      assert.deepEqual(actualOutput, expectedOutput);
+    });
+  });
+});
+
+describe('wc', function() {
+  const fs = {};
+  describe('default case', function() {
+    it('should return a string of all options count and file name', function() {
+      let prerequisites = {
+        options: {
+          line: true,
+          word: true,
+          character: true
+        },
+        fileNames: ['numbers']
+      };
+      const fileName = 'numbers';
+      const fileContents = '1\n2\n3\n';
+      fs.readFileSync = createReader(fileName, fileContents);
+      let expectedOutput = '   3   3   6   numbers';
+      let actualOutput = wc(prerequisites, fs);
+      assert.deepEqual(actualOutput, expectedOutput);
+    });
+  });
+
+  describe('Two options', function() {
+    it('should return a string of count of two options and file name', function() {
+      let prerequisites = {
+        options: {
+          line: true,
+          word: true,
+          character: false
+        },
+        fileNames: ['numbers']
+      };
+      const fileName = 'numbers';
+      const fileContents = '1\n2\n3\n';
+      fs.readFileSync = createReader(fileName, fileContents);
+      let expectedOutput = '   3   3   numbers';
+      let actualOutput = wc(prerequisites, fs);
+      assert.deepEqual(actualOutput, expectedOutput);
+    });
+  });
+
+  describe('Single options', function() {
+    it('should return a string of count of one option and file name', function() {
+      let prerequisites = {
+        options: {
+          line: true,
+          word: false,
+          character: false
+        },
+        fileNames: ['numbers']
+      };
+      const fileName = 'numbers';
+      const fileContents = '1\n2\n3\n';
+      fs.readFileSync = createReader(fileName, fileContents);
+      let expectedOutput = '   3   numbers';
+      let actualOutput = wc(prerequisites, fs);
       assert.deepEqual(actualOutput, expectedOutput);
     });
   });
