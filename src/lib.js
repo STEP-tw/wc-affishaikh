@@ -4,7 +4,7 @@ const {
   EMPTYSTRING,
   REGEX_FOR_WORDS
 } = require('./constants.js');
-const {formatCountAndFileName} = require('./formatter.js');
+const { formatCountAndFileName } = require('./formatter.js');
 
 const getCount = function(delimeter, fileContents) {
   return fileContents.split(delimeter).length;
@@ -19,22 +19,26 @@ const readFile = function(fileName, fs) {
 };
 
 const count = function(prerequisites, fs) {
-  let [option, fileName] = prerequisites;
-  let fileContents = readFile(fileName, fs);
+  let { options, fileNames } = prerequisites;
+  let fileContents = readFile(fileNames[0], fs);
+  let result = { fileName: fileNames[0] };
 
-  if (option === '-l') {
-    return countLines(fileContents) - 1;
+  if (options.line) {
+    result['lineCount'] = countLines(fileContents) - 1;
   }
-  if (option === '-w') {
-    return countWords(fileContents.trim());
+  if (options.word) {
+    result['wordCount'] = countWords(fileContents.trim());
   }
-  return countCharacters(fileContents);
+  if (options.character) {
+    result['characterCount'] = countCharacters(fileContents);
+  }
+  return result;
 };
 
 const wc = function(prerequisites, fs) {
   let fileName = prerequisites[1];
-  let requiredCount = count(prerequisites, fs);
-  return formatCountAndFileName(requiredCount, fileName);
+  let result = count(prerequisites, fs);
+  return formatCountAndFileName(result, fileName);
 };
 
 module.exports = { wc, count };
