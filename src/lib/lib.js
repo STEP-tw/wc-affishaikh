@@ -4,7 +4,7 @@ const {
   EMPTYSTRING,
   REGEX_FOR_WORDS
 } = require('../constants.js');
-const { formatCountAndFileName } = require('../io/formatter.js');
+const { format } = require('../io/formatter.js');
 
 const getCount = function(delimeter, fileContents) {
   return fileContents.split(delimeter).length;
@@ -36,9 +36,8 @@ const count = function(prerequisites, fs) {
 };
 
 const wc = function(prerequisites, fs) {
-  let fileName = prerequisites[1];
   let result = count(prerequisites, fs);
-  return formatCountAndFileName(result, fileName);
+  return format(result, prerequisites.options);
 };
 
 module.exports = { wc, count };

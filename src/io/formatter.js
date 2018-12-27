@@ -1,19 +1,18 @@
 const { TAB } = require('../constants.js');
 
-const formatCountAndFileName = function(result) {
-  let formattedResult = '';
-  let keys = Object.keys(result);
-  if(keys.includes('lineCount')) {
-    formattedResult = TAB + result['lineCount'];
+const format = function(fileCountDetails, options) {
+  let formattedFileCountDetails = '';
+  if (options.line) {
+    formattedFileCountDetails = TAB + fileCountDetails['lineCount'];
   }
-  if(keys.includes('wordCount')) {
-    formattedResult += TAB + result['wordCount'];
+  if (options.word) {
+    formattedFileCountDetails += TAB + fileCountDetails['wordCount'];
   }
-  if(keys.includes('characterCount')) {
-    formattedResult += TAB + result['characterCount'];
+  if (options.character) {
+    formattedFileCountDetails += TAB + fileCountDetails['characterCount'];
   }
-  formattedResult += TAB + result['fileName'];
-  return formattedResult;
+  formattedFileCountDetails += TAB + fileCountDetails['fileName'];
+  return formattedFileCountDetails;
 };
 
-module.exports = { formatCountAndFileName };
+module.exports = { format };
