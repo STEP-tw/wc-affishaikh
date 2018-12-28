@@ -18,11 +18,9 @@ const readFile = function(fileName, fs) {
   return fs.readFileSync(fileName, ENCODING);
 };
 
-const count = function(prerequisites, fs) {
-  let { options, fileNames } = prerequisites;
-  let fileContents = readFile(fileNames[0], fs);
-  let result = { fileName: fileNames[0] };
-
+const mapper = function(fs, options, fileName) {
+  let fileContents = readFile(fileName, fs);
+  let result = {};
   if (options.line) {
     result['lineCount'] = countLines(fileContents) - 1;
   }
@@ -32,12 +30,42 @@ const count = function(prerequisites, fs) {
   if (options.character) {
     result['characterCount'] = countCharacters(fileContents);
   }
+
+  result['fileName'] = fileName;
   return result;
 };
 
+const count = function(prerequisites, fs) {
+  let { options, fileNames } = prerequisites;
+  const mapFileNamesWithCount = mapper.bind(null, fs, options);
+  let result = fileNames.map(mapFileNamesWithCount);
+  return result;
+};
+
+const reducer = function(counts1, counts2) {
+  let result = {};
+  let keys = Object.keys(counts1);
+  for (key of keys) {
+    if (key !== 'fileName') {
+      result[key] = counts1[key] + counts2[key];
+    }
+  }
+  return result;
+};
+
+const calculateTotal = function(allCounts) {
+  return allCounts.reduce(reducer);
+};
+
 const wc = function(prerequisites, fs) {
+  let { options, fileNames } = prerequisites;
   let result = count(prerequisites, fs);
-  return format(result, prerequisites.options);
+  if (fileNames.length > 1) {
+    let total = calculateTotal(result);
+    total['fileName'] = 'total';
+    result.push(total);
+  }
+  return format(result, options);
 };
 
 module.exports = { wc, count };

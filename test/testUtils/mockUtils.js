@@ -1,9 +1,9 @@
 const { ENCODING } = require('../../src/constants.js');
 
-const createReader = function(expectedFileName, fileContents) {
+const createReader = function(expectedFiles) {
   return function(actualFileName, actualEncoding) {
-    if (actualFileName === expectedFileName && actualEncoding === ENCODING) {
-      return fileContents;
+    if (actualEncoding === ENCODING) {
+      return expectedFiles[actualFileName];
     }
   };
 };
