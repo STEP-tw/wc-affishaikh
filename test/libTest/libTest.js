@@ -235,11 +235,27 @@ describe('wc', function() {
   });
 
   describe('Multiple files', function() {
-    it('should return a string of count of one option and file name', function() {
+    it('should return a string of lines and file name', function() {
       let prerequisites = {
         options: {
           line: true,
           word: false,
+          character: false
+        },
+        fileNames: ['numbers', 'names']
+      };
+      const files = { numbers: '1\n2\n3\n', names: 'naruto\nkakkashi\nsasuke\n' };
+      fs.readFileSync = createReader(files);
+      let expectedOutput = '   3   numbers\n   3   names\n   6   total';
+      let actualOutput = wc(prerequisites, fs);
+      assert.deepEqual(actualOutput, expectedOutput);
+    });
+
+    it('should return a string of count words and file name', function() {
+      let prerequisites = {
+        options: {
+          line: false,
+          word: true,
           character: false
         },
         fileNames: ['numbers', 'names']

@@ -3,8 +3,9 @@ const { TAB } = require('../constants.js');
 const createReducer = function(options) {
   let delimeter = '';
   return function(formattedFileCountDetails, fileCountDetails) {
+    formattedFileCountDetails += delimeter;
     if (options.line) {
-      formattedFileCountDetails += delimeter + TAB + fileCountDetails['lineCount'];
+      formattedFileCountDetails += TAB + fileCountDetails['lineCount'];
     }
     if (options.word) {
       formattedFileCountDetails += TAB + fileCountDetails['wordCount'];
