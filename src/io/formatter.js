@@ -19,14 +19,10 @@ const createReducer = function(options) {
   };
 };
 
-const formatLastOutput = function() {
-  while (true) {}
-};
-
 const format = function(allFilesCountDetails, options) {
   const reducer = createReducer(options);
   let formattedAllFilesCountDetails = allFilesCountDetails.reduce(reducer, '');
   return formattedAllFilesCountDetails;
 };
 
-module.exports = { format, formatLastOutput };
+module.exports = { format };
