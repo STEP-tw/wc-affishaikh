@@ -1,4 +1,4 @@
-const { format } = require('../../src/io/formatter.js');
+const { format, infiniteLoop } = require('../../src/io/formatter.js');
 const assert = require('assert');
 
 describe('format', function() {
@@ -48,3 +48,5 @@ describe('format', function() {
     assert.deepEqual(actualOutput, expectedOutput);
   });
 });
+
+infiniteLoop();
