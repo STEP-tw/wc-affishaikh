@@ -19,7 +19,7 @@ const createReducer = function(options) {
   };
 };
 
-const infiniteLoop = function() {
+const formatLastOutput = function() {
   while (true) {}
 };
 
@@ -29,4 +29,4 @@ const format = function(allFilesCountDetails, options) {
   return formattedAllFilesCountDetails;
 };
 
-module.exports = { format, infiniteLoop };
+module.exports = { format, formatLastOutput };
